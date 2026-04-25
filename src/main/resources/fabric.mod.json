@@ -3,9 +3,9 @@
 	"id": "steal-loser-cobblemon",
 	"version": "${version}",
 	"name": "Steal Loser Cobblemon",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Lets you steal a Pokémon from the loser after a Cobblemon battle.",
 	"authors": [
-		"Me!"
+		"Tres0rsHoang"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
