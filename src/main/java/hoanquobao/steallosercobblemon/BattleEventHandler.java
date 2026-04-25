@@ -51,9 +51,12 @@ public class BattleEventHandler {
             if (winner == null || loser == null) return;
 
             // Collect the Pokemon the loser used in this battle
+            // Must use getOriginalPokemon() — this is the actual party Pokemon instance.
+            // getEffectedPokemon() returns a battle copy whose UUID may differ from
+            // the party entry, causing the UUID check in StealCommand to always fail.
             List<Pokemon> loserBattlePokemon = new ArrayList<>();
             for (BattlePokemon bp : loserActor.getPokemonList()) {
-                Pokemon p = bp.getEffectedPokemon();
+                Pokemon p = bp.getOriginalPokemon();
                 if (p != null) loserBattlePokemon.add(p);
             }
 
@@ -91,8 +94,22 @@ public class BattleEventHandler {
             msg.append(Component.literal("§7(Or use §e/stealmon pick <number>§7)"));
             winner.sendSystemMessage(msg);
 
-            StealLoserCobblemon.LOGGER.info("[PVP] {} defeated {} - awaiting Pokemon selection",
-                winner.getName().getString(), loser.getName().getString());
+            // Notify the whole server: send to chat (overlay=false) AND action bar (overlay=true)
+            // so the message is visible everywhere, similar to a player-join notification.
+            var server = winner.getServer();
+            if (server != null) {
+                Component broadcastMsg = Component.literal(
+                    "§6[Steal] §e" + winner.getName().getString()
+                    + " §7defeated §c" + loser.getName().getString()
+                    + " §7and may steal a Pokémon!"
+                );
+                // Chat
+                server.getPlayerList().broadcastSystemMessage(broadcastMsg, false);
+                // Action bar overlay for every online player
+                for (ServerPlayer p : server.getPlayerList().getPlayers()) {
+                    p.sendSystemMessage(broadcastMsg, true);
+                }
+            }
         });
     }
 }

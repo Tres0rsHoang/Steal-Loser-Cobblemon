@@ -8,12 +8,12 @@
 		"Tres0rsHoang"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://www.baohomeserver.uk",
+		"sources": "https://github.com/Tres0rsHoang/Steal-Loser-Cobblemon"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/steal-loser-cobblemon/icon.png",
-	"environment": "*",
+	"environment": "server",
 	"entrypoints": {
 		"main": [
 			"hoanquobao.steallosercobblemon.StealLoserCobblemon"

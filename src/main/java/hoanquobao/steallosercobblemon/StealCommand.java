@@ -117,12 +117,18 @@ public class StealCommand {
             ));
         }
 
-        // Notify loser if online
+        // Notify loser if online — chat + action bar so they can't miss it
         if (loserOnline != null) {
-            loserOnline.sendSystemMessage(Component.literal(
-                "§c[Steal] §e" + winner.getName().getString()
-                + " §cstole §6" + pokemonName + " §cfrom your party!"
-            ));
+            Component loserChat = Component.literal(
+                "§c[Steal] §eYou lost §6" + pokemonName + " §7Lv." + chosenPokemon.getLevel()
+                + "§e! It was stolen by §c" + winner.getName().getString() + "§e!"
+            );
+            Component loserActionBar = Component.literal(
+                "§c⚠ §6" + pokemonName + " §7Lv." + chosenPokemon.getLevel()
+                + " §cwas stolen by §e" + winner.getName().getString() + "§c! ⚠"
+            );
+            loserOnline.sendSystemMessage(loserChat, false);   // chat
+            loserOnline.sendSystemMessage(loserActionBar, true); // action bar overlay
         }
 
         StealLoserCobblemon.LOGGER.info("[Steal] {} stole {} (Lv.{}) from {}",
